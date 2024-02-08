@@ -1,5 +1,5 @@
 import { Product } from "../models/products"
-import { CreateProductDTO } from "../DTO/productDTO/createProductDTO"
+import { CreateProductDTO } from "../DTO/productDTO/CreateProductDTO"
 export class ProductService {
 
     static async getAll() {

@@ -1,24 +1,13 @@
 version: "3.8"
 services:
   
-  mongodb:
-    image: mvertes/alpine-mongo:latest
-    ports:
-      - "7777:27017"
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s
-  
   online-shop:
     image: online-shop
     build: 
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "8082:3000"
 
 
 
