@@ -14,7 +14,7 @@ COPY . .
 RUN npm install
 
 # Starting our application
-CMD [ "npm", "run","dev" ]
+CMD ["npm", "start"]
 
 # Exposing server port
 EXPOSE 3000
