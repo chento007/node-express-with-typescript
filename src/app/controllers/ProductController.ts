@@ -13,6 +13,7 @@ export const getProductById = async (req: Request, res: Response) => {
     console.log(req.query.id);
     const product = await ProductService.getById(req.query.id as string);
     res.json({
+        message:"success",
         data: product
     })
 }

@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { isAuthenicationedUser } from '../middlewares/auth';
-import { createProduct, getAllProduct, getProductById } from "../controllers/product";
+import { createProduct, getAllProduct, getProductById } from "../controllers/ProductController";
 
 
 export default (router: express.Router) => {

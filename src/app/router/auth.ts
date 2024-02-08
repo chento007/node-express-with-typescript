@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { getProfile, login, register } from "../controllers/auth";
+import { getProfile, login, register } from "../controllers/AuthController";
 import { validationMiddleware } from '../validator/ValidateInput';
 import { RegisterDto } from '../DTO/AuthDTO/RegisterDto';
 import { LoginDto } from '../DTO/AuthDTO/LoginDto';
