@@ -3,6 +3,8 @@ services:
   
   online-shop:
     image: online-shop
+    container_name: online-shop
+    restart: always
     build: 
       context: .
       dockerfile: Dockerfile
