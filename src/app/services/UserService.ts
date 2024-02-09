@@ -8,7 +8,6 @@ export class UserService {
         return await User.find();
     }
 
-    
 
 }
 

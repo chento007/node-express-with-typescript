@@ -10,7 +10,7 @@ export const ConnectDatabase = () => mongoose.connect(process.env.DB_URL, {
     autoIndex: false, // Don't build indexes
     maxPoolSize: 10, // Maintain up to 10 socket connections
     socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
-    family: 4 
+    family: 4
 })
     .then(con => {
         console.log("MONGO database connect with house:", con.connection.host)

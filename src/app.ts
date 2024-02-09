@@ -7,11 +7,13 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use(bodyParser.json());
 
+/**
+ * primary route
+ */
 app.use('/', router());
 
 
-export {app}
+export { app }
 

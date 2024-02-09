@@ -13,7 +13,7 @@ export const register = async (req: Request, res: Response) => {
     })
   }
 
-  const user = await UserService.register({ ...req.body });
+  await UserService.register({ ...req.body });
   return res.json({
     message: "You have register success."
   })
@@ -25,13 +25,14 @@ export const login = async (req: Request, res: Response) => {
   let { email, password } = req.body;
 
   const isEmailExist = await UserService.findByEmail(email);
-  console.log(isEmailExist);
   if (!isEmailExist) {
     return res.json({
       status: 400,
       message: "Email or Password is invalid."
     })
   }
+
+  
   const isPasswordMatch = await UserService.comparePassword(password, isEmailExist.password);
   if (!isPasswordMatch) {
     return res.json({
@@ -49,7 +50,7 @@ export const login = async (req: Request, res: Response) => {
 
 
 export const getProfile = async (req: Request, res: Response) => {
-  
+
   res.json({
     data: req.user
   })

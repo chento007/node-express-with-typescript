@@ -1,15 +1,34 @@
 import { Product } from "../models/products"
 import { CreateProductDTO } from "../DTO/productDTO/CreateProductDTO"
+
+
+/**
+ * This class handle all Product Service
+ */
 export class ProductService {
 
+    /**
+     * get all product without limit
+     * @returns list of product
+     */
     static async getAll() {
         return await Product.find();
     }
 
+    /**
+     * This function find product by ProductId
+     * @param id is product we need to find
+     * @returns a single product if found
+     */
     static async getById(id: string) {
         return await Product.findById({ id: id });
     }
 
+    /**
+     * This function use to create the product
+     * @param createDto there the data need to create
+     * @returns a product that created
+     */
     static async create(createDto: CreateProductDTO) {
 
         return await Product.create({

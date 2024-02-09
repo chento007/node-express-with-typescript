@@ -4,8 +4,17 @@ import bcrypt from 'bcrypt';
 import { LoginDto } from "app/DTO/AuthDTO/LoginDto";
 import { User } from "../models/users";
 
+
+/**
+ * This class handle all User Service and integrate with database
+ */
 export class UserService {
 
+    /**
+     * this function use to register user in client page
+     * @param registerDto the data that need to register
+     * @returns user payload after register
+     */
     static async register(registerDto: RegisterDto): Promise<any> {
 
         let { email, password } = registerDto;
@@ -17,6 +26,11 @@ export class UserService {
         return user;
     }
 
+    /**
+     * this function use to find User by Emai
+     * @param email the emal user want to find
+     * @returns payload user
+     */
     static async findByEmail(email: string): Promise<any> {
 
         let user = await User.findOne({ email })
@@ -24,6 +38,12 @@ export class UserService {
         return user;
     }
 
+
+    /**
+     * this function use to get access and refresh token when user login or request new token
+     * @param id the user id need to encrpyt payload
+     * @returns access and refresh token
+     */
     static async getToken(id: string): Promise<any> {
 
         return {
@@ -34,15 +54,26 @@ export class UserService {
         }
     }
 
+    /**
+     * This function use to compare password before user login 
+     * @param passwordEnter the user enter password
+     * @param planTextPassword  the password from databas
+     * @returns return boolean true is mean correct
+     */
     static comparePassword = async (passwordEnter: string, planTextPassword: string) => {
-        console.log(passwordEnter);
-        console.log(planTextPassword);
+
         return await bcrypt.compare(passwordEnter, planTextPassword);
     }
 
+
+    /**
+     * This function use to hasPassword before insert into database
+     * @param password is the password need to hash
+     * @returns the password after hash
+     */
     static hasPassword = async (password: string) => {
-        const newPassword = await bcrypt.hash(password, 10);
-        return newPassword;
+
+        return await bcrypt.hash(password, 10);;
     }
 
 }
