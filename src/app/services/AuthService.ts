@@ -3,12 +3,13 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { LoginDto } from "app/DTO/AuthDTO/LoginDto";
 import { User } from "../models/users";
+import { IUser } from "app/middlewares/auth";
 
 
 /**
  * This class handle all User Service and integrate with database
  */
-export class UserService {
+export class AuthService {
 
     /**
      * this function use to register user in client page
@@ -47,11 +48,10 @@ export class UserService {
     static async getToken(id: string): Promise<any> {
 
         return {
-            data: {
-                accessToken: jwt.sign({ id }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES_TIME }),
-                refreshToken: jwt.sign({ id }, process.env.JWT_REFRESH_SECRET, { expiresIn: process.env.JWT_REFRESH_EXPIRATION_TIME })
-            }
+            accessToken: jwt.sign({ id }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES_TIME }),
+            refreshToken: jwt.sign({ id }, process.env.JWT_REFRESH_SECRET, { expiresIn: process.env.JWT_REFRESH_EXPIRATION_TIME })
         }
+
     }
 
     /**
@@ -76,4 +76,11 @@ export class UserService {
         return await bcrypt.hash(password, 10);;
     }
 
+    static getRefreshToken = async (refreshToken: string) => {
+        const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET_KEY) as IUser;
+        const user = await User.findOne({ _id: decoded.id })
+
+        return user;
+
+    }
 }

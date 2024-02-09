@@ -1,11 +1,11 @@
-import { Request, Response } from 'express';
-import { UserService } from '../services/AuthService';
+import { NextFunction, Request, Response } from 'express';
+import { AuthService } from '../services/AuthService';
 
 
 export const register = async (req: Request, res: Response) => {
 
 
-  const isEmailExist = await UserService.findByEmail(req.body.email);
+  const isEmailExist = await AuthService.findByEmail(req.body.email);
   if (isEmailExist) {
     return res.json({
       status: 400,
@@ -13,7 +13,7 @@ export const register = async (req: Request, res: Response) => {
     })
   }
 
-  await UserService.register({ ...req.body });
+  await AuthService.register({ ...req.body });
   return res.json({
     message: "You have register success."
   })
@@ -24,7 +24,7 @@ export const login = async (req: Request, res: Response) => {
 
   let { email, password } = req.body;
 
-  const isEmailExist = await UserService.findByEmail(email);
+  const isEmailExist = await AuthService.findByEmail(email);
   if (!isEmailExist) {
     return res.json({
       status: 400,
@@ -32,17 +32,17 @@ export const login = async (req: Request, res: Response) => {
     })
   }
 
-  
-  const isPasswordMatch = await UserService.comparePassword(password, isEmailExist.password);
+
+  const isPasswordMatch = await AuthService.comparePassword(password, isEmailExist.password);
   if (!isPasswordMatch) {
     return res.json({
       status: 400,
       message: "Email or Password is invalid."
     })
   }
-
+  const token =  await AuthService.getToken(isEmailExist.id)
   res.json({
-    data: await UserService.getToken(isEmailExist.id)
+    data : token
   })
 
 
@@ -53,5 +53,23 @@ export const getProfile = async (req: Request, res: Response) => {
 
   res.json({
     data: req.user
+  })
+}
+
+
+export const refresh = async (req: Request, res: Response, next: NextFunction) => {
+
+  const refreshToken = req.body.refreshToken;
+  if (!refreshToken) {
+    return res.json({
+      message: "Access Denied. No refresh token provided."
+    });
+  }
+
+  const user =await AuthService.getRefreshToken(refreshToken);
+  const token = await AuthService.getToken(user.id);
+
+  res.json({
+    data: token
   })
 }

@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import { ErrorHandler } from "../exceptions/ErrorHandler";
 import { User } from "../models/users";
 
-interface IUser {
+export interface IUser {
     id: string;
 }
 export const isAuthenicationedUser = async (req: Request, res: Response, next: NextFunction) => {
@@ -24,5 +24,6 @@ export const isAuthenicationedUser = async (req: Request, res: Response, next: N
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY) as IUser;
     // console.log(decoded.email)
     req.user = await User.findOne({ _id: decoded.id })
+    console.log(req.user);
     next();
 }
