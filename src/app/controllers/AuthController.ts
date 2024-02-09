@@ -39,10 +39,7 @@ export const login = async (req: Request, res: Response) => {
       message: "Email or Password is invalid."
     })
   }
-  console.log("ubuevokudvbeouycvbw")
 
-
-  console.log(isEmailExist)
   res.json({
     data: await UserService.getToken(isEmailExist.id)
   })
