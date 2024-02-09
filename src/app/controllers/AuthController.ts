@@ -7,7 +7,7 @@ export const register = async (req: Request, res: Response) => {
 
   const isEmailExist = await AuthService.findByEmail(req.body.email);
   if (isEmailExist) {
-    return res.json({
+    return res.status(400).json({
       status: 400,
       message: "Email is already exist."
     })
@@ -26,7 +26,7 @@ export const login = async (req: Request, res: Response) => {
 
   const isEmailExist = await AuthService.findByEmail(email);
   if (!isEmailExist) {
-    return res.json({
+    res.status(400).json({
       status: 400,
       message: "Email or Password is invalid."
     })
@@ -35,17 +35,17 @@ export const login = async (req: Request, res: Response) => {
 
   const isPasswordMatch = await AuthService.comparePassword(password, isEmailExist.password);
   if (!isPasswordMatch) {
-    return res.json({
+    res.status(400).json({
       status: 400,
       message: "Email or Password is invalid."
     })
   }
-  const token =  await AuthService.getToken(isEmailExist.id)
-  res.json({
-    data : token
+
+
+  const token = await AuthService.getToken(isEmailExist.id)
+  res.status(200).json({
+    data: token
   })
-
-
 }
 
 
@@ -61,15 +61,15 @@ export const refresh = async (req: Request, res: Response, next: NextFunction) =
 
   const refreshToken = req.body.refreshToken;
   if (!refreshToken) {
-    return res.json({
+    return res.status(400).json({
       message: "Access Denied. No refresh token provided."
     });
   }
 
-  const user =await AuthService.getRefreshToken(refreshToken);
+  const user = await AuthService.getRefreshToken(refreshToken);
   const token = await AuthService.getToken(user.id);
 
-  res.json({
+  res.status(200).json({
     data: token
   })
 }
