@@ -1,11 +1,11 @@
 import express from "express";
 import bodyParser from "body-parser";
 import router from './app/router';
-import corse from "cors"
+import cors from "cors"; // Corrected import
 
 const app = express();
 
-app.use(corse())
+app.use(cors())
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
