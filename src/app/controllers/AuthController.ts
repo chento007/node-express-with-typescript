@@ -26,7 +26,7 @@ export const login = async (req: Request, res: Response) => {
 
   const isEmailExist = await AuthService.findByEmail(email);
   if (!isEmailExist) {
-    res.status(400).json({
+    return res.status(400).json({
       status: 400,
       message: "Email or Password is invalid."
     })
@@ -35,7 +35,7 @@ export const login = async (req: Request, res: Response) => {
 
   const isPasswordMatch = await AuthService.comparePassword(password, isEmailExist.password);
   if (!isPasswordMatch) {
-    res.status(400).json({
+    return res.status(400).json({
       status: 400,
       message: "Email or Password is invalid."
     })
@@ -43,7 +43,7 @@ export const login = async (req: Request, res: Response) => {
 
 
   const token = await AuthService.getToken(isEmailExist.id)
-  res.status(200).json({
+  return res.status(200).json({
     data: token
   })
 }
@@ -51,7 +51,7 @@ export const login = async (req: Request, res: Response) => {
 
 export const getProfile = async (req: Request, res: Response) => {
 
-  res.json({
+  return res.json({
     data: req.user
   })
 }
@@ -69,7 +69,7 @@ export const refresh = async (req: Request, res: Response, next: NextFunction) =
   const user = await AuthService.getRefreshToken(refreshToken);
   const token = await AuthService.getToken(user.id);
 
-  res.status(200).json({
+  return res.status(200).json({
     data: token
   })
 }
