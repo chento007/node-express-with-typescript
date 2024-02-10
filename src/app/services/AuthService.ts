@@ -48,8 +48,8 @@ export class AuthService {
     static async getToken(id: string): Promise<any> {
 
         return {
-            accessToken: jwt.sign({ id }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES_TIME }),
-            refreshToken: jwt.sign({ id }, process.env.JWT_REFRESH_SECRET, { expiresIn: process.env.JWT_REFRESH_EXPIRATION_TIME })
+            access: jwt.sign({ id }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES_TIME }),
+            refresh: jwt.sign({ id }, process.env.JWT_REFRESH_SECRET, { expiresIn: process.env.JWT_REFRESH_EXPIRATION_TIME })
         }
 
     }
