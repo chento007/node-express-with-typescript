@@ -6,6 +6,6 @@ import { createProduct, getAllProduct, getProductById } from "../controllers/Pro
 
 export default (router: express.Router) => {
 
-    router.route("/api/product").get(getAllProduct).post(createProduct);
-    router.get('/api/product/:id', getProductById);
+    router.route("/api/product").get(isAuthenicationedUser,getAllProduct).post(isAuthenicationedUser,createProduct);
+    router.get('/api/product/:id' ,isAuthenicationedUser, getProductById);
 };
