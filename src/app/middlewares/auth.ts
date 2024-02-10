@@ -7,6 +7,7 @@ import { User } from "../models/users";
 export interface IUser {
     id: string;
 }
+
 export const isAuthenicationedUser = async (req: Request, res: Response, next: NextFunction) => {
 
     let token: string = null;
@@ -16,14 +17,13 @@ export const isAuthenicationedUser = async (req: Request, res: Response, next: N
 
     if (!token) {
         const response = new ErrorHandler("Login first to access this resource.", 401)
-        return res.json({
-            message: response.message,
-            status: response.status
+        return res.status(401).json({
+            message: "Login first to access this resource.",
+            status: 401
         });
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY) as IUser;
     // console.log(decoded.email)
     req.user = await User.findOne({ _id: decoded.id })
-    console.log(req.user);
     next();
 }
