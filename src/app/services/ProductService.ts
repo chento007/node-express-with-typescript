@@ -21,7 +21,7 @@ export class ProductService {
      * @returns a single product if found
      */
     static async getById(id: string) {
-        return await Product.findById({ id: id });
+        return await Product.findById({ _id: id });
     }
 
     /**
@@ -38,5 +38,24 @@ export class ProductService {
             price: createDto.price,
             user: createDto.user
         })
+    }
+
+    static async update(updateDto: CreateProductDTO, id: string) {
+
+        const product = await Product.findByIdAndUpdate(
+            id, { ...updateDto }, {
+            new: true,
+            runValidators: true,
+            useFindAndModify: false
+        })
+
+        return product;
+    }
+
+    static async delete(id: string) {
+
+        const product = await Product.findByIdAndDelete(id)
+
+        return product;
     }
 }

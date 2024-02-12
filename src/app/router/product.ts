@@ -1,11 +1,14 @@
 import express from 'express';
 
 import { isAuthenicationedUser } from '../middlewares/auth';
-import { createProduct, getAllProduct, getProductById } from "../controllers/ProductController";
+import { createProduct, deleteById, getAllProduct, getProductById, updateProduct } from "../controllers/ProductController";
 
 
 export default (router: express.Router) => {
 
     router.route("/api/product").get(isAuthenicationedUser,getAllProduct).post(isAuthenicationedUser,createProduct);
-    router.get('/api/product/:id' ,isAuthenicationedUser, getProductById);
+    router.route('/api/product/:id')
+        .get(isAuthenicationedUser, getProductById)
+        .delete(isAuthenicationedUser,deleteById)
+        .put(isAuthenicationedUser,updateProduct)
 };
