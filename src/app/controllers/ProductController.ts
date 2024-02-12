@@ -21,7 +21,7 @@ export const getProductById = async (req: Request, res: Response) => {
 
 
 export const createProduct = async (req: Request, res: Response) => {
-
+        
     const product = await ProductService.create({ ...req.body });
 
     return res.json({

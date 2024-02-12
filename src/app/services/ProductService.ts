@@ -35,6 +35,7 @@ export class ProductService {
             description: createDto.description,
             photo: createDto.photo,
             title: createDto.title,
+            price: createDto.price,
             user: createDto.user
         })
     }
