@@ -1,15 +1,16 @@
 import { ProductService } from "../services/ProductService"
 import { Request, Response } from "express";
+import { catchAsyncError } from '../middlewares/catchAsyncErrors';
 
-export const getAllProduct = async (req: Request, res: Response) => {
+export const getAllProduct = catchAsyncError(async (req: Request, res: Response) => {
 
     const products = await ProductService.getAll();
     return res.json({
         data: products
     })
-}
+})
 
-export const getProductById = async (req: Request, res: Response) => {
+export const getProductById = catchAsyncError(async (req: Request, res: Response) => {
 
     const product = await ProductService.getById(req.params.id);
     if (!product) {
@@ -24,19 +25,19 @@ export const getProductById = async (req: Request, res: Response) => {
         status: 200,
         data: product
     })
-}
+})
 
 
-export const createProduct = async (req: Request, res: Response) => {
+export const createProduct = catchAsyncError(async (req: Request, res: Response) => {
 
     const product = await ProductService.create({ ...req.body });
 
     return res.json({
         data: product
     })
-}
+})
 
-export const updateProduct = async (req: Request, res: Response) => {
+export const updateProduct = catchAsyncError(async (req: Request, res: Response) => {
 
     const isIdExist = await ProductService.getById(req.params.id);
     if (!isIdExist) {
@@ -60,10 +61,10 @@ export const updateProduct = async (req: Request, res: Response) => {
         message: "Something went wrong please try again.",
         status: 500
     })
-}
+})
 
 
-export const deleteById = async (req: Request, res: Response) => {
+export const deleteById = catchAsyncError(async (req: Request, res: Response) => {
 
     const isIdExist = await ProductService.getById(req.params.id);
     if (!isIdExist) {
@@ -86,4 +87,4 @@ export const deleteById = async (req: Request, res: Response) => {
         message: "Something went wrong please try again.",
         status: 500
     })
-}
+})
