@@ -9,9 +9,7 @@ const app = express();
 app.use(cors())
 
 app.use(express.json())
-// app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(bodyParser.json());
 
 /**
  * primary route

@@ -83,4 +83,8 @@ export class AuthService {
         return user;
 
     }
+
+    test(): string {
+        return "tets";
+    }
 }

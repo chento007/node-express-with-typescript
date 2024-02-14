@@ -5,7 +5,6 @@ export const handleMidlewareError = (err: any, req: Request, res: Response, next
 
     err.statusCode = err.statusCode || 500;
 
-
     if (process.env.NODE_ENV === 'development') {
         res.status(err.statusCode).json({
             success: false,
@@ -14,6 +13,7 @@ export const handleMidlewareError = (err: any, req: Request, res: Response, next
             stack: err.stack
         });
     }
+
 
     if (process.env.NODE_ENV.trim() === 'production') {
 

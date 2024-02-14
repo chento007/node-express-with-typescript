@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { AuthService } from '../services/AuthService';
 import { catchAsyncError } from '../middlewares/catchAsyncErrors';
+import { BaseRest } from '../base/BaseRest';
 
 export const register = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
 
@@ -12,10 +13,16 @@ export const register = catchAsyncError(async (req: Request, res: Response, next
     })
   }
 
-  await AuthService.register({ ...req.body });
-  return res.json({
-    message: "You have register success."
-  })
+  const user = await AuthService.register({ ...req.body });
+
+  return res.status(200).json(
+    new BaseRest({
+      status: true,
+      code: 200,
+      message: "You have register successfully.",
+      data: user
+    })
+  )
 })
 
 
@@ -42,19 +49,29 @@ export const login = catchAsyncError(async (req: Request, res: Response) => {
 
 
   const token = await AuthService.getToken(isEmailExist.id)
-  return res.status(200).json({
-    data: token
-  })
+
+  return res.status(200).json(
+    new BaseRest({
+      status: true,
+      code: 200,
+      message: "You have login successfully.",
+      data: token
+    })
+  )
 })
 
+export const getProfile = catchAsyncError(async (req: Request, res: Response) => {
 
-export const getProfile = async (req: Request, res: Response) => {
 
-  return res.json({
-    data: req.user
-  })
-}
-
+  return res.status(200).json(
+    new BaseRest({
+      status: true,
+      code: 200,
+      message: "You have retrive your profile successfully.",
+      data: req.user
+    })
+  )
+})
 
 export const refresh = catchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
 
@@ -68,7 +85,13 @@ export const refresh = catchAsyncError(async (req: Request, res: Response, next:
   const user = await AuthService.getRefreshToken(refreshToken);
   const token = await AuthService.getToken(user.id);
 
-  return res.status(200).json({
-    data: token
-  })
+  return res.status(200).json(
+    new BaseRest({
+      status: true,
+      code: 200,
+      message: "You have new access successfully.",
+      data: token
+    })
+  )
 })
+
